@@ -11,21 +11,25 @@
  *
  */
 
-import React from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux"; /*Vai conectar o componente com algum reducer do redux*/
 import PropTypes from "prop-types"; /*Serve para fazer a validação dos prop-types do componente*/
-const TodoList = props => {
+const TodoList = ({ todos, addTodo }) => {
   return (
-    <ul>
-      {props.todos.map(todos => (
-        <li key={todos.id}>{todos.text}</li>
-      ))}
-    </ul>
+    <Fragment>
+      <ul>
+        {todos.map(todo => (
+          <li key={todo.id}>{todo.text}</li>
+        ))}
+      </ul>
+      <button onClick={() => addTodo("Novo todo")}>Adicionar</button>
+    </Fragment>
   );
 };
 
 TodoList.prototype = {
   /*Validação de prop types*/
+  addTodo: PropTypes.func.isRequired /*add todo é uma função obrigatoria*/,
   todos: PropTypes.arrayOf(
     PropTypes.shape({
       //todos é um array de objetos
@@ -41,5 +45,15 @@ const mapStateToProps = state => ({
   //mapear o state em propriedades
   todos: state.todos
 });
+const mapDispatchToProps = dispatch => ({
+  /**
+   * O mapDispatchToProps transforma as actions tambem em props do componente
+   *
+   */
+  addTodo: text => dispatch({ type: "ADD_TODO", payload: { text } }) //É um padrão de desenvolvimento passar todas as informações dentro do payload exeto o type
+});
 
-export default connect(mapStateToProps)(TodoList); //utilizando o connect
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList); //utilizando o connect
