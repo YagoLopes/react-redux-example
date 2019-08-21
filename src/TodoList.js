@@ -14,6 +14,8 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux"; /*Vai conectar o componente com algum reducer do redux*/
 import PropTypes from "prop-types"; /*Serve para fazer a validação dos prop-types do componente*/
+import * as TodoActions from "./store/actions/todos"; /*Importando todas as actions de uma vez*/
+import { bindActionCreators } from "redux"; /*serve para aplicar o dispatch em todas as actions do componente*/
 const TodoList = ({ todos, addTodo }) => {
   return (
     <Fragment>
@@ -45,13 +47,13 @@ const mapStateToProps = state => ({
   //mapear o state em propriedades
   todos: state.todos
 });
-const mapDispatchToProps = dispatch => ({
-  /**
-   * O mapDispatchToProps transforma as actions tambem em props do componente
-   *
-   */
-  addTodo: text => dispatch({ type: "ADD_TODO", payload: { text } }) //É um padrão de desenvolvimento passar todas as informações dentro do payload exeto o type
-});
+
+/**
+ * O mapDispatchToProps transforma as actions tambem em props do componente
+ *
+ */
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(TodoActions, dispatch);
 
 export default connect(
   mapStateToProps,
