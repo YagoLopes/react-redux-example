@@ -21,6 +21,14 @@ export default function todos(state = INICIAL_STATE, action) {
      */
     case "ADD_TODO":
       return [...state, { id: Math.random(), text: action.payload.text }];
+
+    /**
+     * CASO A ACTION FOR REMOVE_TODO
+     * FILTRE O STATE E RETORNE APENAS OS TODOS QUE TEM O ID DIFERENTE DO ID QUE EU QUERO REMOVER
+     */
+    case "REMOVE_TODO":
+      return state.filter(todo => todo.id !== action.payload.id);
+
     default:
       return state;
   }

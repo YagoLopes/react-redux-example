@@ -16,12 +16,15 @@ import { connect } from "react-redux"; /*Vai conectar o componente com algum red
 import PropTypes from "prop-types"; /*Serve para fazer a validação dos prop-types do componente*/
 import * as TodoActions from "./store/actions/todos"; /*Importando todas as actions de uma vez*/
 import { bindActionCreators } from "redux"; /*serve para aplicar o dispatch em todas as actions do componente*/
-const TodoList = ({ todos, addTodo }) => {
+const TodoList = ({ todos, addTodo, removeTodo }) => {
   return (
     <Fragment>
       <ul>
         {todos.map(todo => (
-          <li key={todo.id}>{todo.text}</li>
+          <li key={todo.id}>
+            {todo.text}
+            <button onClick={() => removeTodo(todo.id)}>Remover</button>
+          </li>
         ))}
       </ul>
       <button onClick={() => addTodo("Novo todo")}>Adicionar</button>
